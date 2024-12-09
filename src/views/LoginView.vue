@@ -5,6 +5,7 @@
         <div class="login-form bg-black bg-opacity-80 p-8 rounded-md max-w-md mx-auto">
           <h1 class="text-white text-3xl font-bold mb-6">Entrar</h1>
           <Form @submit="onSubmit" class="space-y-6">
+            <!-- Campo de E-mail -->
             <div>
               <label for="email" class="block text-gray-400 mb-2">E-mail ou número de celular</label>
               <Field
@@ -71,8 +72,12 @@
   </template>
   
   <script setup>
+  import { useRouter } from "vue-router"; // Importar o roteador
   import { useForm, Field, ErrorMessage, Form } from "vee-validate";
   import * as yup from "yup";
+  
+  // Instanciar o roteador
+  const router = useRouter();
   
   // Esquema de validação com Yup
   const schema = yup.object({
@@ -95,7 +100,8 @@
       (u) => u.email === values.email && u.password === values.password
     );
     if (user) {
-      alert("Login realizado com sucesso!");
+      // Redireciona para a página inicial (Home)
+      router.push("/home");
     } else {
       alert("Email ou senha inválidos.");
     }
