@@ -1,11 +1,13 @@
 <template>
-    <div class="login-container bg-cover bg-center h-screen" :style="{ backgroundImage: `url('https://assets.nflxext.com/ffe/siteui/vlv3/ce449112-3294-449a-b8d3-c4e1fdd7cff5/web/BR-pt-20241202-TRIFECTA-perspective_a59cedf7-54b2-4c2d-b309-0c1a84fceabc_small.jpg')` }">
+    <div class="login-container bg-cover bg-center h-screen" :style="{ backgroundImage: `url('https://assets.nflxext.com/ffe/siteui/vlv3/ce449112-3294-449a-b8d3-c4e1fdd7cff5/web/BR-pt-20241202-TRIFECTA-perspective_a59cedf7-54b2-4c2d-b309-0c1a84fceabc_small.jpg')`}"
+    
+    >
       <div class="overlay bg-black bg-opacity-70 h-full w-full absolute"></div>
       <div class="login-content relative z-10 flex justify-center items-center h-full">
         <div class="login-form bg-black bg-opacity-80 p-8 rounded-md max-w-md mx-auto">
           <h1 class="text-white text-3xl font-bold mb-6">Entrar</h1>
           <Form @submit="onSubmit" class="space-y-6">
-            <!-- Campo de E-mail -->
+
             <div>
               <label for="email" class="block text-gray-400 mb-2">E-mail ou número de celular</label>
               <Field
