@@ -1,95 +1,84 @@
-<script setup>
-import { onMounted, ref } from 'vue';
-import movies from '../movies.json';
-
-import Magnify from 'vue-material-design-icons/Magnify.vue';
-import HomeOutline from 'vue-material-design-icons/HomeOutline.vue';
-import TrendingUp from 'vue-material-design-icons/TrendingUp.vue';
-import Television from 'vue-material-design-icons/Television.vue';
-import MovieOutline from 'vue-material-design-icons/MovieOutline.vue';
-import Plus from 'vue-material-design-icons/Plus.vue';
-import ChevronLeft from 'vue-material-design-icons/ChevronLeft.vue';
-
-import VideoCarousel from '@/components/VideoCarousel.vue';
-import MovieDetails from '@/components/MovieDetails.vue';
-
-import { useMovieStore } from '../stores/movie';
-import { storeToRefs } from 'pinia';
-
-const useMovie = useMovieStore();
-const { movie, showFullVideo } = storeToRefs(useMovie);
-
-let video = ref(null);
-
-onMounted(() => {
-  setTimeout(() => (movie.value = movies[0][0]), 100);
-});
-</script>
-
 <template>
-  <div class="fixed w-full h-screen bg-black">
-    <!-- Sidebar -->
-    <div v-if="!showFullVideo" id="SideNav" class="flex z-40 items-center w-[120px] h-screen bg-black relative">
-      <img class="absolute top-0 w-[35px] mt-10 ml-10" src="/images/netflix-logo.png" alt="" />
-      <div>
-        <div class="py-2 mx-10 my-6">
-          <Magnify fillColor="#FFFFFF" :size="40" class="cursor-pointer" />
-        </div>
-        <div class="py-2 mx-10 my-6 border-b-4 border-b-red-500">
-          <HomeOutline fillColor="#FFFFFF" :size="40" class="cursor-pointer" />
-        </div>
-        <div class="py-2 mx-10 my-6">
-          <TrendingUp fillColor="#FFFFFF" :size="40" class="cursor-pointer" />
-        </div>
-        <div class="py-2 mx-10 my-6">
-          <Television fillColor="#FFFFFF" :size="40" class="cursor-pointer" />
-        </div>
-        <div class="py-2 mx-10 my-6">
-          <MovieOutline fillColor="#FFFFFF" :size="40" class="cursor-pointer" />
-        </div>
-        <div class="py-2 mx-10 my-6">
-          <Plus fillColor="#FFFFFF" :size="40" class="cursor-pointer" />
-        </div>
-      </div>
-    </div>
-
-    <!-- Conteúdo Principal -->
-    <div v-if="!showFullVideo">
-      <div class="fixed flex z-20 top-0 right-0 w-full h-[50%] bg-black pl-[120px] bg-clip-border">
-        <div class="absolute z-30 h-[600px] left-[120px] w-[77%] right-0 top-0 bg-gradient-to-r from-black via-black" />
-        <MovieDetails v-if="movie" :movie="movie" />
-        <video
-          v-if="movie"
-          :src="'/videos/'+movie.name+'.mp4'"
-          autoplay
-          loop
-          class="absolute z-0 h-[600px] right-0 top-0"
+  <div class="home-container bg-black text-white">
+    <header class="flex justify-between items-center p-4">
+      <img
+        src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg"
+        alt="Netflix Logo"
+        class="h-8"
+      />
+      <nav class="flex space-x-6">
+        <a href="#" class="hover:underline">Início</a>
+        <a href="#" class="hover:underline">Séries</a>
+        <a href="#" class="hover:underline">Filmes</a>
+        <a href="#" class="hover:underline">Bombando</a>
+        <a href="#" class="hover:underline">Minha Lista</a>
+      </nav>
+      <div class="flex items-center space-x-4">
+        <Magnify fillColor="white" size="24" />
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Portrait_Placeholder.png/512px-Portrait_Placeholder.png"
+          alt="Avatar"
+          class="h-8 rounded-full"
         />
       </div>
+    </header>
 
-      <div class="fixed z-30 bottom-0 right-0 w-full h-[55%] pl-[120px] overflow-y-auto">
-        <VideoCarousel class="pb-14 pt-14" category="Popular Movies" :movies="movies[0]" />
-        <VideoCarousel class="pb-14" category="Horror Movies" :movies="movies[1]" />
-        <VideoCarousel class="pb-32" category="Featured Movies" :movies="movies[2]" />
+    <section
+      class="hero-section relative bg-cover bg-center h-[500px]"
+      :style="{ backgroundImage: `url('https://image.tmdb.org/t/p/w1280/${highlightMovie.value?.backdrop_path}')` }"
+    >
+      <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black"></div>
+      <div class="absolute bottom-8 left-8 space-y-4">
+        <h1 class="text-4xl font-bold">{{ highlightMovie.value?.title }}</h1>
+        <p class="text-sm max-w-md">{{ highlightMovie.value?.overview }}</p>
+        <div class="flex space-x-4">
+          <button class="bg-white text-black px-4 py-2 rounded-md flex items-center space-x-2">
+            <PlayIcon fillColor="black" size="20" />
+            <span>Assistir</span>
+          </button>
+          <button class="bg-gray-700 text-white px-4 py-2 rounded-md flex items-center space-x-2">
+            <InfoIcon fillColor="white" size="20" />
+            <span>Mais informações</span>
+          </button>
+        </div>
       </div>
-    </div>
+    </section>
 
-    <!-- Fullscreen Video -->
-    <div v-if="showFullVideo">
-      <div @click="showFullVideo = false" class="absolute z-50 p-2 m-4 bg-white bg-opacity-50 rounded-full cursor-pointer">
-        <ChevronLeft fillColor="#FFFFFF" :size="40" />
-      </div>
-      <video
-        :src="'/videos/'+movie.name+'.mp4'"
-        autoplay
-        loop
-        controls
-        class="absolute z-0 w-[100vw] h-full object-fit"
+    <section class="space-y-8 p-8">
+      <VideoCarousel
+        v-for="(category, index) in categories"
+        :key="index"
+        :category="category.name"
+        :movies="category.movies"
       />
-    </div>
+    </section>
   </div>
 </template>
 
+<script setup>
+import { ref, onMounted } from "vue";
+import { useMovieStore } from "../stores/movie";
+import { storeToRefs } from "pinia";
+import Magnify from "vue-material-design-icons/Magnify.vue";
+import PlayIcon from "vue-material-design-icons/Play.vue";
+import InfoIcon from "vue-material-design-icons/InformationOutline.vue";
+import VideoCarousel from "../components/VideoCarousel.vue";
+
+// Acessando a store de filmes
+const useMovie = useMovieStore();
+const { categories, highlightMovie } = storeToRefs(useMovie);
+
+onMounted(async () => {
+  await useMovie.fetchMovies(); 
+});
+</script>
+
 <style scoped>
-/* Adicione estilos específicos ao HomeView */
+.home-container {
+  min-height: 100vh;
+}
+
+.hero-section {
+  position: relative;
+}
 </style>

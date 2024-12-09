@@ -74,11 +74,10 @@
   </template>
   
   <script setup>
-  import { useRouter } from "vue-router"; // Importar o roteador
+  import { useRouter } from "vue-router"; 
   import { useForm, Field, ErrorMessage, Form } from "vee-validate";
   import * as yup from "yup";
   
-  // Instanciar o roteador
   const router = useRouter();
   
   // Esquema de validação com Yup
