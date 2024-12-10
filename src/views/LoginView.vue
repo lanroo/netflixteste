@@ -146,5 +146,9 @@
     border-color: #e50914;
     outline: none;
   }
+  .bg-black {
+    --tw-bg-opacity: 1;
+    background-color: rgba(0, 0, 0, 0.624);
+}
   </style>
   
