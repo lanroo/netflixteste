@@ -28,7 +28,6 @@
       </div>
     </section>
 
-    <!-- Categorias -->
     <section class="space-y-8 p-8">
       <VideoCarousel
         v-for="(category, index) in categories"
@@ -42,21 +41,21 @@
 
 <script setup>
 import VideoCarousel from "@/components/VideoCarousel.vue";
-import { onMounted } from "vue";
+import { onMounted, computed } from "vue";
 import { useMovieStore } from "@/stores/movie";
 
 const movieStore = useMovieStore();
+
+// Computed properties para acessar categorias e filme em destaque
+const categories = computed(() => movieStore.categories);
+const highlightMovie = computed(() => movieStore.highlightMovie);
 
 onMounted(async () => {
   await movieStore.fetchMovies();
   console.log("Categorias carregadas:", movieStore.categories);
   console.log("Filme em destaque:", movieStore.highlightMovie);
 });
-
-const categories = movieStore.categories;
-const highlightMovie = movieStore.highlightMovie;
 </script>
-
 
 <style scoped>
 .home-container {

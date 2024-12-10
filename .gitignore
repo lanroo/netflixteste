@@ -3,24 +3,22 @@ logs
 *.log
 npm-debug.log*
 yarn-debug.log*
-yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
 # Dependency directories
 node_modules/
+
 # Build directories
 dist/
 dist-ssr/
 *.local
-/dist
 *.js.map
-
 
 # Testing artifacts
 coverage/
-/cypress/videos/
-/cypress/screenshots/
+cypress/videos/
+cypress/screenshots/
 
 # System files
 .DS_Store
@@ -29,10 +27,10 @@ coverage/
 .vscode/
 !.vscode/extensions.json
 .idea/
-*.suo
 *.ntvs*
-*.njsproj
+*.suo
 *.sln
+*.njsproj
 *.sw?
 
 # Environment files
@@ -48,17 +46,17 @@ coverage/
 # TypeScript
 *.tsbuildinfo
 
-# files
+# Finais de linha para evitar problemas
+* text=auto
+*.js text eol=lf
+*.ts text eol=lf
+*.vue text eol=lf
+*.css text eol=lf
+*.html text eol=lf
+*.json text eol=lf
 
+# Ignorar arquivos específicos do projeto
 /cypress/videos/
 /cypress/screenshots/
-
-# Editor directories and files
 .vscode/*
 !.vscode/extensions.json
-.idea
-*.ntvs*
-*.suo
-*.sln
-*.njsproj
-*.sw?
