@@ -28,6 +28,7 @@
       </div>
     </section>
 
+    <!-- Categorias -->
     <section class="space-y-8 p-8">
       <VideoCarousel
         v-for="(category, index) in categories"
@@ -40,6 +41,7 @@
 </template>
 
 <script setup>
+import VideoCarousel from "@/components/VideoCarousel.vue";
 import { onMounted } from "vue";
 import { useMovieStore } from "@/stores/movie";
 
@@ -54,6 +56,7 @@ onMounted(async () => {
 const categories = movieStore.categories;
 const highlightMovie = movieStore.highlightMovie;
 </script>
+
 
 <style scoped>
 .home-container {
