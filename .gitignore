@@ -13,6 +13,9 @@ node_modules/
 dist/
 dist-ssr/
 *.local
+/dist
+*.js.map
+
 
 # Testing artifacts
 coverage/
